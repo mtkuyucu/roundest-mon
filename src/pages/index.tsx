@@ -11,7 +11,12 @@ const Home: NextPage = () => {
   const firstPokemon = trpc.useQuery(["get-pokemon-by-id", { id: first }]);
   const secondPokemon = trpc.useQuery(["get-pokemon-by-id", { id: second }]);
 
-  if (firstPokemon.isLoading || secondPokemon.isLoading) {
+  if (
+    !firstPokemon?.data ||
+    !secondPokemon?.data ||
+    firstPokemon.isLoading ||
+    secondPokemon.isLoading
+  ) {
     return <div>Loading...</div>;
   }
 
@@ -21,22 +26,27 @@ const Home: NextPage = () => {
       <div className="p-2" />
       <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
         <div className="w-64 h-64 flex flex-col">
-          <img
-            src={firstPokemon.data?.sprites.front_default}
-            alt=""
-            className="w-full"
-          />
+          {firstPokemon.data.sprites.front_default && (
+            <img
+              className="w-full h-full"
+              src={firstPokemon.data.sprites.front_default}
+              alt={firstPokemon.data.name}
+            />
+          )}
           <div className="text-xl text-center capitalize mt-[-2rem]">
             {firstPokemon.data?.name}
           </div>
         </div>
         <div className="p-8">Vs</div>
         <div className="w-64 h-64 flex flex-col">
-          <img
-            src={secondPokemon.data?.sprites.front_default}
-            alt=""
-            className="w-full"
-          />
+          {secondPokemon.data.sprites.front_default && (
+            <img
+              className="w-full h-full"
+              src={secondPokemon.data.sprites.front_default}
+              alt={secondPokemon.data.name}
+            />
+          )}
+
           <div className="text-xl text-center capitalize mt-[-2rem]">
             {secondPokemon.data?.name}
           </div>

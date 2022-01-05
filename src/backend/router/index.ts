@@ -5,11 +5,19 @@ import { PokemonClient } from "pokenode-ts";
 export const appRouter = trpc.router().query("get-pokemon-by-id", {
   input: z.object({ id: z.number().positive() }).nullish(),
   async resolve({ input }) {
-    const pokemonClient = new PokemonClient();
-    let pokemon = await pokemonClient.getPokemonById(input.id);
+    if (input) {
+      const pokemonClient = new PokemonClient();
+      let pokemon = await pokemonClient.getPokemonById(input.id);
+      return {
+        name: pokemon.name,
+        sprites: pokemon.sprites,
+      };
+    }
     return {
-      name: pokemon.name,
-      sprites: pokemon.sprites,
+      name: "Missing ID",
+      sprites: {
+        front_default: "https://i.imgur.com/Z6X8QZ8.png",
+      },
     };
   },
 });
