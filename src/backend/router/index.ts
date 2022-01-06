@@ -1,6 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { PokemonClient } from "pokenode-ts";
+import { prisma } from "@/backend/utils/prisma";
 
 export const appRouter = trpc
   .router()
@@ -37,8 +38,8 @@ export const appRouter = trpc
       });
 
       return {
-        voteFor: input.voteFor,
-        voteAgainst: input.voteAgainst,
+        success: true,
+        ...voteInDb,
       };
     },
   });

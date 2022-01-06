@@ -16,6 +16,7 @@ const Home: NextPage = () => {
 
   const firstPokemon = trpc.useQuery(["get-pokemon-by-id", { id: first }]);
   const secondPokemon = trpc.useQuery(["get-pokemon-by-id", { id: second }]);
+  const voteMutation = trpc.useMutation(["cast-vote"]);
 
   if (
     !firstPokemon?.data ||
@@ -27,7 +28,11 @@ const Home: NextPage = () => {
   }
 
   const voteForRoundest = (selected: number) => {
-    console.log("Voting for", selected);
+    if (selected === first) {
+      voteMutation.mutate({ voteFor: first, voteAgainst: second });
+    } else {
+      voteMutation.mutate({ voteFor: second, voteAgainst: first });
+    }
     updateIds(getOptionsForVote());
   };
 
