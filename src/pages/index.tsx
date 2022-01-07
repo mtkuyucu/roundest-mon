@@ -5,6 +5,7 @@ import type React from "react";
 import { trpc } from "@/utils/trpc";
 import { inferQueryResponse } from "@/pages/api/trpc/[trpc]";
 import Image from "next/image";
+import Link from "next/link";
 
 const BUTTON_CLASS =
   "inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm rounded text-sm leading-5 font-medium text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline focus:border-blue-300 focus:z-10 transition duration-150 ease-in-out";
@@ -52,7 +53,11 @@ const Home: NextPage = () => {
         />
       </div>
       <div className="absolute bottom-0 pb-2 text-xl text-center">
-        <a href="https://github.com">Github</a>
+        <a href="https://github.com">Github </a>
+        {"|"}
+        <Link href="/results">
+          <a> Results</a>
+        </Link>
       </div>
     </div>
   );
