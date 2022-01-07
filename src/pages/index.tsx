@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type React from "react";
 import { trpc } from "@/utils/trpc";
 import { inferQueryResponse } from "@/pages/api/trpc/[trpc]";
-import App from "next/app";
+import Image from "next/image";
 
 const BUTTON_CLASS =
   "inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm rounded text-sm leading-5 font-medium text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline focus:border-blue-300 focus:z-10 transition duration-150 ease-in-out";
@@ -70,8 +70,10 @@ const PokemonListing: React.FC<{
   return (
     <div className="w-64 h-64 flex flex-col items-center justify-around">
       {props.pokemon.sprites.front_default && (
-        <img
-          className="w-full h-full"
+        <Image
+          width={256}
+          height={256}
+          layout={"fixed"}
           src={props.pokemon.sprites.front_default}
           alt={props.pokemon.name}
         />
