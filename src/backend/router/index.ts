@@ -9,21 +9,13 @@ export const appRouter = trpc
     input: z.object({ id: z.number().positive() }).nullish(),
     async resolve({ input }) {
       if (input) {
-        let pokemon = await prisma.pokemon.findFirst({
+        return await prisma.pokemon.findFirst({
           where: { id: input.id },
         });
-        if (pokemon) {
-          return {
-            name: pokemon.name,
-            sprites: pokemon.sprites,
-          };
-        }
       }
       return {
         name: "Missing ID",
-        sprites: {
-          front_default: "https://i.imgur.com/Z6X8QZ8.png",
-        },
+        spriteUrl: "https://i.imgur.com/Z6X8QZ8.png",
       };
     },
   })
@@ -35,8 +27,8 @@ export const appRouter = trpc
     async resolve({ input }) {
       const voteInDb = prisma.vote.create({
         data: {
-          voteFor: input.voteFor,
-          voteAgainst: input.voteAgainst,
+          votedForId: input.voteFor,
+          votedAgainstId: input.voteAgainst,
         },
       });
 

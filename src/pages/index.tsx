@@ -72,12 +72,12 @@ const PokemonListing: React.FC<{
 
   return (
     <div className="w-64 h-64 flex flex-col items-center justify-around">
-      {props.pokemon.sprites.front_default && (
+      {props.pokemon.spriteUrl && (
         <Image
           width={256}
           height={256}
           layout={"fixed"}
-          src={props.pokemon.sprites.front_default}
+          src={props.pokemon.spriteUrl}
           alt={props.pokemon.name}
         />
       )}
