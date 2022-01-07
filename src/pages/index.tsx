@@ -19,14 +19,11 @@ const Home: NextPage = () => {
   const secondPokemon = trpc.useQuery(["get-pokemon-by-id", { id: second }]);
   const voteMutation = trpc.useMutation(["cast-vote"]);
 
-  if (
+  const dataLoading =
     !firstPokemon?.data ||
     !secondPokemon?.data ||
     firstPokemon.isLoading ||
-    secondPokemon.isLoading
-  ) {
-    return <div>Loading...</div>;
-  }
+    secondPokemon.isLoading;
 
   const voteForRoundest = (selected: number) => {
     if (selected === first) {
@@ -41,17 +38,6 @@ const Home: NextPage = () => {
     <div className="h-screen w-screen flex flex-col justify-center items-center">
       <div className="text-2xl text-center">Which Pokémon is roundest ?</div>
       <div className="p-2" />
-      <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
-        <PokemonListing
-          pokemon={firstPokemon.data}
-          vote={() => voteForRoundest(first)}
-        />
-        <div className="p-8">Vs</div>
-        <PokemonListing
-          pokemon={secondPokemon.data}
-          vote={() => voteForRoundest(second)}
-        />
-      </div>
       <div className="absolute bottom-0 pb-2 text-xl text-center">
         <a href="https://github.com">Github </a>
         {"|"}
@@ -59,6 +45,24 @@ const Home: NextPage = () => {
           <a> Results</a>
         </Link>
       </div>
+      {!dataLoading && (
+        <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
+          <PokemonListing
+            pokemon={firstPokemon.data}
+            vote={() => voteForRoundest(first)}
+          />
+          <div className="p-8">Vs</div>
+          <PokemonListing
+            pokemon={secondPokemon.data}
+            vote={() => voteForRoundest(second)}
+          />
+        </div>
+      )}
+      {dataLoading && (
+        <div className="text-center">
+          <img src="/loading.svg" alt="loading" />
+        </div>
+      )}
     </div>
   );
 };
