@@ -51,6 +51,9 @@ const Home: NextPage = () => {
           vote={() => voteForRoundest(second)}
         />
       </div>
+      <div className="absolute bottom-0 pb-2 text-xl text-center">
+        <a href="https://github.com">Github</a>
+      </div>
     </div>
   );
 };
