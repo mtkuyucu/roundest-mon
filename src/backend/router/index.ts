@@ -9,12 +9,15 @@ export const appRouter = trpc
     input: z.object({ id: z.number().positive() }).nullish(),
     async resolve({ input }) {
       if (input) {
-        const pokemonClient = new PokemonClient();
-        let pokemon = await pokemonClient.getPokemonById(input.id);
-        return {
-          name: pokemon.name,
-          sprites: pokemon.sprites,
-        };
+        let pokemon = await prisma.pokemon.findFirst({
+          where: { id: input.id },
+        });
+        if (pokemon) {
+          return {
+            name: pokemon.name,
+            sprites: pokemon.sprites,
+          };
+        }
       }
       return {
         name: "Missing ID",
